@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3f4a2a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AG Lifts">
+<meta name="application-name" content="AG Lifts">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>AG Lifts</title>
+<style>
+:root{
+  --bg:#111315;--card:#1a1d20;--card2:#22262a;--line:#2d3237;
+  --text:#eef0f2;--muted:#8b939c;--accent:#e4ff5a;--accentText:#111315;
+  --good:#5fd38d;--warn:#ffb648;--bad:#ff6b6b;--r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;background:#3f4a2a;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;border-bottom:3px solid #c9a96e;display:flex;align-items:baseline;justify-content:space-between}
+header h1{margin:0;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:#d8bf8a}
+header .sub{color:#c9bf9f;font-size:13px}
+main{padding:14px 16px;max-width:640px;margin:0 auto}
+h2{margin:2px 0 0;font-size:24px}
+.eyebrow{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:12px 0}
+.cardtitle{font-weight:600;margin-bottom:8px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.btn{appearance:none;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:12px;padding:12px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accentText);border-color:var(--accent)}
+.btn.danger{color:var(--bad)}
+.btn.block{width:100%}
+.btn.small{padding:7px 11px;font-size:13px;border-radius:10px}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px;text-align:left;color:var(--text);font:inherit;cursor:pointer}
+.chip b{display:block;font-size:16px}
+.chip span{color:var(--muted);font-size:12px}
+.chip.sel{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.chip.next b::after{content:" · next";color:var(--accent);font-weight:500;font-size:12px}
+.ex h3{margin:0;font-size:16px}
+.ex .spec{color:var(--muted);font-size:13px;white-space:nowrap}
+.cue{color:var(--muted);font-size:13px;margin-top:2px}
+.last{font-size:13px;margin-top:8px;color:var(--muted)}
+.last b{color:var(--text);font-weight:500}
+.sug{display:inline-block;margin-top:8px;font-size:13px;padding:4px 9px;border-radius:999px;background:var(--card2);border:1px solid var(--line)}
+.sug.up{color:var(--good);border-color:rgba(95,211,141,.4)}
+.sug.warn{color:var(--warn);border-color:rgba(255,182,72,.4)}
+.sets{margin-top:10px}
+.setrow,.sethead{display:grid;grid-template-columns:20px 1fr 1fr 62px 46px;gap:6px;align-items:center;margin-top:6px}
+.sethead{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:0}
+.setn{color:var(--muted);font-size:13px;text-align:center}
+.setrow input,.setrow select{width:100%;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:600 17px system-ui,sans-serif;text-align:center;padding:0 4px}
+.setrow select{font-size:15px}
+.setrow input::placeholder{color:#5c636b;font-weight:500}
+.tick{height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--muted);font-size:18px;cursor:pointer}
+.setrow.done .tick{background:var(--good);border-color:var(--good);color:#0c1a12}
+.setrow.done input,.setrow.done select{border-color:rgba(95,211,141,.35)}
+.addset{background:none;border:none;color:var(--muted);font:inherit;font-size:13px;padding:8px 0 0;cursor:pointer}
+.wu{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.wu:first-of-type{border-top:none}
+.wu input{width:22px;height:22px;accent-color:var(--good)}
+.wu span:nth-child(2){flex:1}
+select.plain{width:100%;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:inherit;padding:0 10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:7px 6px;border-top:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500;border-top:none}
+.ok{color:var(--good);font-weight:700}
+.no{color:var(--bad);font-weight:700}
+.hist summary{list-style:none;cursor:pointer}
+.hist summary::-webkit-details-marker{display:none}
+.hist .meta{color:var(--muted);font-size:13px}
+.hist .exl{margin-top:8px;font-size:13px}
+.hist .exl div{padding:4px 0;border-top:1px solid var(--line)}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:rgba(17,19,21,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom)}
+nav button{background:none;border:none;color:var(--muted);font:600 13px system-ui,sans-serif;padding:14px 0;cursor:pointer}
+nav button.on{color:var(--accent)}
+#timer{position:fixed;left:12px;right:12px;bottom:calc(58px + env(safe-area-inset-bottom));z-index:7;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:10px 12px;display:none;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);max-width:616px;margin:0 auto}
+#timer.show{display:flex}
+#timer .t{font:700 26px ui-monospace,SFMono-Regular,Menlo,monospace;min-width:84px}
+#timer .lbl{flex:1;font-size:12px;color:var(--muted)}
+#timer .bar{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);border-radius:0 0 0 16px}
+#timer.over{border-color:var(--good)}
+#timer.over .t{color:var(--good)}
+#toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:9px 14px;border-radius:10px;font-weight:600;font-size:14px;z-index:9;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+svg text{fill:var(--muted);font-size:10px;font-family:system-ui,sans-serif}
+.empty{color:var(--muted);text-align:center;padding:30px 0}
+</style>
+</head>
+<body>
+<header><h1>AG Lifts</h1><span class="sub" id="hsub"></span></header>
+<main id="main"></main>
+<div id="timer"><span class="t" id="tt">0:00</span><span class="lbl" id="tl">Rest</span>
+  <button class="btn small" data-act="t-" >−15</button><button class="btn small" data-act="t+">+15</button><button class="btn small" data-act="tskip">Skip</button><div class="bar" id="tb"></div></div>
+<div id="toast"></div>
+<nav>
+  <button data-nav="today" class="on">Today</button>
+  <button data-nav="history">History</button>
+  <button data-nav="progress">Progress</button>
+  <button data-nav="plan">Plan</button>
+</nav>
+<input type="file" id="importfile" accept="application/json,.json" hidden>
+
+<script>
+/* =====================================================================
+   PROGRAM — edit here. reps:[min,max], rir = target reps in reserve,
+   rest in seconds, inc = load jump in kg (0 = bodyweight, add reps).
+   muscles drive the Aiden's-rule coverage check (warm-ups don't count).
+   ===================================================================== */
+const MUSCLES = {chest:"Chest",lats:"Lats",upperBack:"Upper back",sideDelts:"Side delts",rearDelts:"Rear delts",biceps:"Biceps",triceps:"Triceps",abs:"Abs",quads:"Quads",hamstrings:"Hamstrings",glutes:"Glutes",lowerBack:"Lower back",calves:"Calves"};
+
+function ex(id,name,muscles,reps,o={}){return Object.assign({id,name,muscles,reps,sets:3,rir:1,rest:90,inc:2.5,cue:"",warmup:false},o);}
+function wu(id,name,sets,reps){return {id,name,muscles:[],reps:[reps,reps],sets,warmup:true};}
+
+const PROGRAM = {
+  rotation:["UA","LA","UB","LB"],
+  sessions:{
+    UA:{name:"Upper A",exercises:[
+      ex("ua_crunch","Cable ab crunch",["abs"],[12,15],{rest:60,cue:"primer"}),
+      ex("ua_hammer","Cable hammer curl",["biceps"],[10,12],{rest:60,cue:"primer"}),
+      ex("ua_sa_pd","SA lat pulldown",["lats"],[8,12],{rest:90}),
+      ex("ua_wide_pd","Wide grip pulldown",["lats","upperBack"],[8,12],{rest:120}),
+      ex("ua_cs_row","Chest-supported row",["upperBack"],[8,12],{rest:120}),
+      ex("ua_inc_db","Low incline DB press",["chest"],[6,10],{rest:150,inc:2}),
+      ex("ua_fly","Machine flyes",["chest"],[10,15]),
+      ex("ua_lat_raise","Machine lateral raise",["sideDelts"],[12,15],{rest:60}),
+      ex("ua_rev_pec","Reverse pec deck",["rearDelts"],[12,15],{rest:60}),
+      ex("ua_pushdown","Tricep pushdown",["triceps"],[10,12],{rest:60}),
+    ]},
+    LA:{name:"Lower A",tag:"Quad focus",exercises:[
+      wu("la_wu_squat","Air squat",2,15),
+      wu("la_wu_calf","Seated calf raise",2,15),
+      ex("la_hack","Hack squat",["quads","glutes"],[6,10],{rest:180,inc:5}),
+      ex("la_press","Leg press",["quads","glutes"],[10,12],{rest:150,inc:5}),
+      ex("la_backext","45° back extension",["lowerBack"],[12,15],{cue:"neutral spine"}),
+      ex("la_ext","Leg extension",["quads"],[10,15]),
+      ex("la_curl","Seated leg curl",["hamstrings"],[10,12]),
+      ex("la_calf","Standing calf raise",["calves"],[10,12],{rir:0,rest:60,cue:"2s pause at bottom"}),
+    ]},
+    UB:{name:"Upper B",exercises:[
+      ex("ub_knee","Hanging knee raise",["abs"],[10,15],{rest:60,inc:0,cue:"primer"}),
+      ex("ub_hammer","DB hammer curl",["biceps"],[10,12],{rest:60,inc:2,cue:"primer"}),
+      ex("ub_iso_inc","Iso-lateral incline press",["chest"],[6,10],{rest:150}),
+      ex("ub_flat_db","Flat DB press",["chest"],[8,12],{rest:120,inc:2}),
+      ex("ub_cg_pd","Close grip pulldown",["lats"],[8,12],{rest:120}),
+      ex("ub_tbar","T-bar row",["upperBack"],[8,12],{rest:120}),
+      ex("ub_db_lat","DB lateral raise",["sideDelts"],[12,15],{rest:60,inc:1}),
+      ex("ub_face","Face pull",["rearDelts"],[12,15],{rest:60}),
+      ex("ub_skull","Skullcrushers",["triceps"],[10,12]),
+    ]},
+    LB:{name:"Lower B",tag:"Hinge / glutes",exercises:[
+      wu("lb_wu_squat","Air squat",2,15),
+      wu("lb_wu_calf","Seated calf raise",2,15),
+      ex("lb_rdl","Romanian deadlift",["hamstrings","glutes","lowerBack"],[8,10],{rest:180,cue:"bar close, soft knees, hips back — film a set"}),
+      ex("lb_thrust","Hip thrust",["glutes"],[8,12],{rest:150,inc:5,cue:"chin tucked, ribs down — film a set"}),
+      ex("lb_curl","Lying leg curl",["hamstrings"],[10,12]),
+      ex("lb_smith","Smith squat (heels elevated)",["quads"],[8,12],{rest:150,cue:"knees forward, torso upright"}),
+      ex("lb_backext","Seated back extension machine",["lowerBack"],[12,15],{cue:"lower back; alt: reverse hyper"}),
+      ex("lb_calf","Leg press calf raise",["calves"],[12,15],{rir:0,rest:60,cue:"2s pause at bottom"}),
+    ]},
+  }
+};
+
+/* ===================== storage ===================== */
+const KEY="liftlog.v1";
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.history))return Object.assign({draft:null,ui:{}},s);}catch(e){}return {history:[],draft:null,ui:{}};}
+let db=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){toast("Couldn't save — export a backup");}}
+
+/* ===================== helpers ===================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num=x=>+(Math.round(x*100)/100);
+const fmtDate=iso=>new Date(iso).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+const fmtTime=iso=>new Date(iso).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+const allEx=()=>Object.values(PROGRAM.sessions).flatMap(s=>s.exercises);
+const exById=id=>allEx().find(e=>e.id===id);
+const e1rm=s=>s.w>0?s.w*(1+s.r/30):s.r;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("show"),2200);}
+function setStr(sets){return sets.map(s=>(s.w>0?num(s.w)+"×":"BW×")+s.r+(s.rir!=null?` @${s.rir}`:"")).join(" · ");}
+
+function nextSession(){
+  const h=db.history;if(!h.length)return PROGRAM.rotation[0];
+  const last=[...h].sort((a,b)=>a.date<b.date?-1:1).pop();
+  const i=PROGRAM.rotation.indexOf(last.session);
+  return PROGRAM.rotation[(i+1)%PROGRAM.rotation.length];
+}
+function lastDone(key){const h=db.history.filter(x=>x.session===key).sort((a,b)=>a.date<b.date?-1:1);return h.length?h[h.length-1]:null;}
+function lastPerf(exId){
+  const h=[...db.history].sort((a,b)=>a.date<b.date?-1:1);
+  for(let i=h.length-1;i>=0;i--){const s=h[i].entries[exId];if(s&&s.length)return {date:h[i].date,sets:s};}
+  return null;
+}
+
+/* Progression rule: double progression on the heaviest working weight. */
+function suggest(e){
+  const [lo,hi]=e.reps,lp=lastPerf(e.id);
+  if(!lp) return {w:"",cls:"",text:`First time: pick a load you'd get ~${hi} reps with at ${e.rir}RIR`};
+  const top=Math.max(...lp.sets.map(s=>s.w||0));
+  const work=lp.sets.filter(s=>(s.w||0)===top);
+  const enough=work.length>=e.sets;
+  const allTop=enough&&work.every(s=>s.r>=hi);
+  const overshoot=work.some(s=>s.rir!=null&&s.rir<e.rir);
+  const anyLow=work.some(s=>s.r<lo);
+  if(allTop&&!overshoot){
+    if(!e.inc) return {w:top||"",cls:"up",text:"Top of range — make it harder (pause or slower negative)"};
+    return {w:num(top+e.inc),cls:"up",text:`Add ${e.inc} kg → ${num(top+e.inc)} kg`};
+  }
+  if(allTop&&overshoot) return {w:top,cls:"warn",text:`Hold ${num(top)} kg — you went past ${e.rir}RIR. Hit the top reps with a rep spare first`};
+  if(anyLow) return {w:top,cls:"warn",text:`Hold ${num(top)} kg — below ${lo} reps last time. Drop ${e.inc||"a bit"}${e.inc?" kg":""} if it repeats`};
+  if(!enough) return {w:top,cls:"",text:`Hold ${num(top)} kg — get all ${e.sets} sets at this weight`};
+  return {w:top,cls:"",text:`Hold ${num(top)} kg — aim for +1 rep per set`};
+}
+
+/* ===================== views ===================== */
+let view="today";
+function render(){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.nav===view));
+  $("#hsub").textContent=db.draft?PROGRAM.sessions[db.draft.session].name+" in progress":`${db.history.length} session${db.history.length===1?"":"s"} logged`;
+  const m=$("#main");
+  m.innerHTML=view==="today"?(db.draft?vSession():vPick()):view==="history"?vHistory():view==="progress"?vProgress():vPlan();
+  window.scrollTo(0,0);
+}
+
+let picked=null;
+function vPick(){
+  const nx=nextSession();if(!picked)picked=nx;
+  const S=PROGRAM.sessions[picked];
+  const chips=PROGRAM.rotation.map(k=>{const s=PROGRAM.sessions[k],ld=lastDone(k);
+    return `<button class="chip ${k===picked?"sel":""} ${k===nx?"next":""}" data-act="pick" data-k="${k}"><b>${esc(s.name)}</b><span>${s.tag?esc(s.tag)+" · ":""}${ld?"last "+fmtDate(ld.date):"not done yet"}</span></button>`;}).join("");
+  const list=S.exercises.filter(e=>!e.warmup).map(e=>{const sg=suggest(e);
+    return `<div class="row between" style="padding:7px 0;border-top:1px solid var(--line)"><span>${esc(e.name)}</span><span class="muted" style="font-size:13px;text-align:right">${sg.w!==""&&sg.w?num(sg.w)+" kg":""}</span></div>`;}).join("");
+  return `<div class="eyebrow">Up next</div><h2>${esc(PROGRAM.sessions[nx].name)}</h2>
+  <div class="chips">${chips}</div>
+  <button class="btn primary block" data-act="start">Start ${esc(S.name)}</button>
+  <div class="card"><div class="cardtitle">${esc(S.name)} — ${S.exercises.filter(e=>!e.warmup).length} exercises</div>${list}</div>`;
+}
+
+function vSession(){
+  const d=db.draft,S=PROGRAM.sessions[d.session];
+  let h=`<div class="eyebrow">Started ${fmtTime(d.started)}</div><h2>${esc(S.name)}</h2>`;
+  const wus=S.exercises.filter(e=>e.warmup);
+  if(wus.length) h+=`<section class="card"><div class="cardtitle">Warm-up</div>${wus.map(e=>`<label class="wu"><input type="checkbox" data-act="wu" data-ex="${e.id}" ${d.warm[e.id]?"checked":""}><span>${esc(e.name)}</span><span class="muted">${e.sets} × ${e.reps[0]}</span></label>`).join("")}</section>`;
+  for(const e of S.exercises.filter(e=>!e.warmup)){
+    const sg=suggest(e),lp=lastPerf(e.id),rows=d.sets[e.id]||[];
+    const rirOpts=v=>["",0,1,2,3,4].map(o=>`<option value="${o}" ${String(v)===String(o)?"selected":""}>${o===""?"–":o}</option>`).join("");
+    h+=`<section class="card ex" id="c_${e.id}">
+      <div class="row between"><h3>${esc(e.name)}</h3><span class="spec">${e.sets} × ${e.reps[0]}–${e.reps[1]} · ${e.rir}RIR</span></div>
+      ${e.cue?`<div class="cue">${esc(e.cue)}</div>`:""}
+      ${lp?`<div class="last">Last (${fmtDate(lp.date)}): <b>${setStr(lp.sets)}</b></div>`:""}
+      <div class="sug ${sg.cls}">${esc(sg.text)}</div>
+      <div class="sets"><div class="sethead"><span></span><span>${e.inc?"kg":"+kg"}</span><span>reps</span><span>RIR</span><span></span></div>
+      ${rows.map((s,i)=>`<div class="setrow ${s.done?"done":""}" id="r_${e.id}_${i}"><span class="setn">${i+1}</span>
+        <input inputmode="decimal" data-f="w" data-ex="${e.id}" data-i="${i}" value="${esc(s.w)}" placeholder="kg">
+        <input inputmode="numeric" data-f="r" data-ex="${e.id}" data-i="${i}" value="${esc(s.r)}" placeholder="${e.reps[0]}–${e.reps[1]}">
+        <select data-f="rir" data-ex="${e.id}" data-i="${i}">${rirOpts(s.rir)}</select>
+        <button class="tick" data-act="done" data-ex="${e.id}" data-i="${i}" aria-label="Set done">✓</button></div>`).join("")}
+      </div><button class="addset" data-act="addset" data-ex="${e.id}">+ add set</button></section>`;
+  }
+  h+=`<section class="card"><div class="cardtitle">Session rating</div>
+    <select class="plain" data-f="rating">${["",1,2,3,4,5,6,7,8,9,10].map(o=>`<option value="${o}" ${String(d.rating)===String(o)?"selected":""}>${o===""?"Rate this session (1–10)":o}</option>`).join("")}</select></section>
+    <button class="btn primary block" data-act="finish">Finish &amp; save</button>
+    <div style="height:10px"></div><button class="btn danger block" data-act="discard">Discard session</button>`;
+  return h;
+}
+
+function vHistory(){
+  const h=[...db.history].sort((a,b)=>a.date<b.date?1:-1);
+  if(!h.length) return `<div class="empty">No sessions yet. Finish a workout and it lands here.</div>`;
+  return h.map(x=>{const S=PROGRAM.sessions[x.session];
+    const sets=Object.values(x.entries).reduce((a,s)=>a+s.length,0);
+    const vol=Object.values(x.entries).flat().reduce((a,s)=>a+(s.w||0)*s.r,0);
+    const exl=Object.entries(x.entries).map(([id,s])=>{const e=exById(id);return `<div><b>${esc(e?e.name:id)}</b><br><span class="muted">${setStr(s)}</span></div>`;}).join("");
+    return `<details class="card hist"><summary><div class="row between"><b>${esc(S?S.name:x.session)}</b><span class="meta">${fmtDate(x.date)}</span></div>
+      <div class="meta">${sets} sets · ${Math.round(vol).toLocaleString("en-GB")} kg volume${x.rating?` · rated ${x.rating}/10`:""}</div></summary>
+      <div class="exl">${exl}</div><div style="margin-top:10px"><button class="btn small danger" data-act="delh" data-id="${x.id}">Delete session</button></div></details>`;}).join("");
+}
+
+function vProgress(){
+  const sel=db.ui.prog||allEx().find(e=>!e.warmup).id;
+  const opts=PROGRAM.rotation.map(k=>{const S=PROGRAM.sessions[k];
+    return `<optgroup label="${esc(S.name)}">${S.exercises.filter(e=>!e.warmup).map(e=>`<option value="${e.id}" ${e.id===sel?"selected":""}>${esc(e.name)}</option>`).join("")}</optgroup>`;}).join("");
+  const e=exById(sel);
+  const pts=[...db.history].sort((a,b)=>a.date<b.date?-1:1).filter(x=>x.entries[sel]).map(x=>{
+    const s=x.entries[sel],best=s.reduce((m,v)=>e1rm(v)>e1rm(m)?v:m,s[0]);
+    return {date:x.date,val:e1rm(best),sets:s};});
+  const bw=e&&!e.inc;
+  let body;
+  if(!pts.length) body=`<div class="empty">Nothing logged for this exercise yet.</div>`;
+  else{
+    body=`<div class="card"><div class="cardtitle">${bw?"Best set reps":"Estimated 1RM (best set)"}</div>${chart(pts,bw?"":" kg")}</div>
+    <div class="card"><table><tr><th>Date</th><th>Sets</th></tr>${pts.slice(-8).reverse().map(p=>`<tr><td style="white-space:nowrap">${fmtDate(p.date)}</td><td>${setStr(p.sets)}</td></tr>`).join("")}</table></div>`;
+  }
+  return `<select class="plain" data-f="prog">${opts}</select>${body}`;
+}
+
+function chart(pts,unit){
+  if(pts.length<2) return `<div class="muted">${num(pts[0].val)}${unit} — log one more session to see a trend.</div>`;
+  const W=320,H=150,p={l:34,r:10,t:12,b:22};
+  const vals=pts.map(x=>x.val);let mn=Math.min(...vals),mx=Math.max(...vals);
+  if(mx-mn<1){mn-=1;mx+=1;}const pad=(mx-mn)*.12;mn-=pad;mx+=pad;
+  const X=i=>p.l+i*(W-p.l-p.r)/(pts.length-1),Y=v=>p.t+(1-(v-mn)/(mx-mn))*(H-p.t-p.b);
+  const line=pts.map((x,i)=>`${X(i).toFixed(1)},${Y(x.val).toFixed(1)}`).join(" ");
+  const grid=[mn+pad,(mn+mx)/2,mx-pad].map(v=>`<line x1="${p.l}" x2="${W-p.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#2d3237"/><text x="${p.l-5}" y="${Y(v)+3}" text-anchor="end">${Math.round(v)}</text>`).join("");
+  const last=pts[pts.length-1],first=pts[0];
+  const delta=last.val-first.val;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img">${grid}
+    <polyline points="${line}" fill="none" stroke="#e4ff5a" stroke-width="2.2" stroke-linejoin="round"/>
+    ${pts.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x.val)}" r="3" fill="#e4ff5a"/>`).join("")}
+    <text x="${p.l}" y="${H-6}">${fmtDate(first.date)}</text><text x="${W-p.r}" y="${H-6}" text-anchor="end">${fmtDate(last.date)}</text></svg>
+    <div class="row between" style="margin-top:6px"><span>Now <b>${num(last.val.toFixed(1))}${unit}</b></span><span class="${delta>=0?"ok":"no"}">${delta>=0?"+":""}${num(delta.toFixed(1))}${unit} since ${fmtDate(first.date)}</span></div>`;
+}
+
+function vPlan(){
+  const work=PROGRAM.rotation.map(k=>[k,PROGRAM.sessions[k].exercises.filter(e=>!e.warmup)]);
+  const rows=Object.entries(MUSCLES).map(([m,label])=>{
+    const cells=work.map(([k,exs])=>exs.filter(e=>e.muscles.includes(m)).map(e=>e.name));
+    const sessHits=cells.filter(c=>c.length).length;
+    const names=new Set(cells.flat());
+    const ok=sessHits>=2&&names.size>=2;
+    return `<tr><td><b>${label}</b></td>${cells.map(c=>`<td>${c.length?c.map(esc).join("<br>"):'<span class="muted">—</span>'}</td>`).join("")}<td class="${ok?"ok":"no"}">${ok?"✓":"✗"}</td></tr>`;}).join("");
+  const allOk=Object.keys(MUSCLES).every(m=>{const c=work.map(([k,exs])=>exs.filter(e=>e.muscles.includes(m)).map(e=>e.name));return c.filter(x=>x.length).length>=2&&new Set(c.flat()).size>=2;});
+  const prog=PROGRAM.rotation.map(k=>{const S=PROGRAM.sessions[k];
+    return `<div class="card"><div class="cardtitle">${esc(S.name)}${S.tag?` <span class="muted">· ${esc(S.tag)}</span>`:""}</div><table>${S.exercises.map(e=>`<tr><td>${esc(e.name)}${e.cue?`<br><span class="muted">${esc(e.cue)}</span>`:""}</td><td style="white-space:nowrap;text-align:right">${e.warmup?`warm-up ${e.sets}×${e.reps[0]}`:`${e.sets} × ${e.reps[0]}–${e.reps[1]} · ${e.rir}RIR`}</td></tr>`).join("")}</table></div>`;}).join("");
+  return `<div class="eyebrow">Week order</div><h2 style="font-size:19px">Upper A → Lower A → rest → Upper B → Lower B</h2>
+  <div class="card"><div class="row between"><div class="cardtitle" style="margin:0">Aiden's rule</div><span class="${allOk?"ok":"no"}">${allOk?"All muscles 2×/week ✓":"Gaps — see ✗"}</span></div>
+  <div class="muted" style="font-size:13px;margin:4px 0 8px">Every muscle hit twice a week, different exercise each time. Warm-ups excluded.</div>
+  <div style="overflow-x:auto"><table><tr><th></th>${work.map(([k])=>`<th>${PROGRAM.sessions[k].name}</th>`).join("")}<th></th></tr>${rows}</table></div></div>
+  ${prog}
+  <div class="card"><div class="cardtitle">Backup</div><div class="muted" style="font-size:13px;margin-bottom:10px">Logs live on this phone only. Export now and then, and to move to a new phone.</div>
+  <div class="row"><button class="btn small" data-act="export">Export backup</button><button class="btn small" data-act="import">Import backup</button></div></div>`;
+}
+
+/* ===================== session actions ===================== */
+function startSession(k){
+  const S=PROGRAM.sessions[k],sets={},warm={};
+  for(const e of S.exercises){
+    if(e.warmup){warm[e.id]=false;continue;}
+    const sg=suggest(e);
+    sets[e.id]=Array.from({length:e.sets},()=>({w:sg.w===""?"":String(sg.w),r:"",rir:String(e.rir),done:false}));
+  }
+  db.draft={session:k,started:new Date().toISOString(),sets,warm,rating:""};
+  save();picked=null;render();wake();
+}
+function finishSession(){
+  const d=db.draft,entries={};
+  for(const [id,arr] of Object.entries(d.sets)){
+    const v=arr.filter(s=>s.r!==""&&+s.r>0).map(s=>({w:s.w===""?0:+s.w,r:+s.r,rir:s.rir===""?null:+s.rir}));
+    if(v.length)entries[id]=v;
+  }
+  if(!Object.keys(entries).length){if(confirm("No sets logged. Discard this session?")){db.draft=null;save();render();}return;}
+  const missing=Object.values(d.sets).flat().filter(s=>s.r==="").length;
+  if(missing&&!confirm(`${missing} set${missing===1?"":"s"} have no reps and won't be saved. Finish anyway?`))return;
+  db.history.push({id:uid(),session:d.session,date:d.started,finished:new Date().toISOString(),entries,warmups:d.warm,rating:d.rating===""?null:+d.rating});
+  db.draft=null;save();stopTimer(true);release();toast("Session saved");view="history";render();
+}
+
+/* ===================== rest timer ===================== */
+const T={end:0,total:0,int:null,ac:null};
+function fmtSec(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function startRest(sec,label){T.end=Date.now()+sec*1000;T.total=sec;const el=$("#timer");el.classList.add("show");el.classList.remove("over");$("#tl").textContent=label||"Rest";if(!T.int)T.int=setInterval(tickT,250);tickT();}
+function tickT(){const left=Math.ceil((T.end-Date.now())/1000);
+  if(left<=0){clearInterval(T.int);T.int=null;$("#tt").textContent="Go";$("#tl").textContent="Rest done";$("#tb").style.width="100%";$("#timer").classList.add("over");buzz();clearTimeout(T.hide);T.hide=setTimeout(()=>stopTimer(true),5000);return;}
+  $("#tt").textContent=fmtSec(left);$("#tb").style.width=(100*(1-left/T.total))+"%";}
+function stopTimer(){clearInterval(T.int);T.int=null;clearTimeout(T.hide);$("#timer").classList.remove("show","over");}
+function audio(){try{if(!T.ac)T.ac=new (window.AudioContext||window.webkitAudioContext)();if(T.ac.state==="suspended")T.ac.resume();}catch(e){}}
+function buzz(){try{navigator.vibrate&&navigator.vibrate([250,120,250]);}catch(e){}
+  try{if(!T.ac)return;[0,.25].forEach(t=>{const o=T.ac.createOscillator(),g=T.ac.createGain();o.frequency.value=880;g.gain.setValueAtTime(.25,T.ac.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,T.ac.currentTime+t+.18);o.connect(g).connect(T.ac.destination);o.start(T.ac.currentTime+t);o.stop(T.ac.currentTime+t+.2);});}catch(e){}}
+
+/* keep screen awake during a session */
+let lock=null;
+async function wake(){try{if(db.draft&&"wakeLock" in navigator&&document.visibilityState==="visible")lock=await navigator.wakeLock.request("screen");}catch(e){}}
+function release(){try{lock&&lock.release();}catch(e){}lock=null;}
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){wake();if(T.int)tickT();}});
+
+/* ===================== events ===================== */
+document.addEventListener("click",ev=>{
+  const n=ev.target.closest("[data-nav]");if(n){view=n.dataset.nav;render();return;}
+  const b=ev.target.closest("[data-act]");if(!b)return;
+  const a=b.dataset.act,d=db.draft;audio();
+  if(a==="pick"){picked=b.dataset.k;render();}
+  else if(a==="wu"){d.warm[b.dataset.ex]=b.checked;save();}
+  else if(a==="start")startSession(picked||nextSession());
+  else if(a==="done"){
+    const s=d.sets[b.dataset.ex][+b.dataset.i],e=exById(b.dataset.ex);
+    if(!s.done&&s.r===""){toast("Enter reps first");return;}
+    s.done=!s.done;save();$(`#r_${b.dataset.ex}_${b.dataset.i}`).classList.toggle("done",s.done);
+    if(s.done){const more=d.sets[e.id].some(x=>!x.done);startRest(e.rest,more?`Rest · ${e.name}`:"Rest · next exercise");}
+  }
+  else if(a==="addset"){const arr=d.sets[b.dataset.ex],l=arr[arr.length-1]||{w:"",rir:""};arr.push({w:l.w,r:"",rir:l.rir,done:false});save();const y=window.scrollY;render();window.scrollTo(0,y);}
+  else if(a==="finish")finishSession();
+  else if(a==="discard"){if(confirm("Discard this session? Nothing will be saved.")){db.draft=null;save();stopTimer();release();render();}}
+  else if(a==="delh"){if(confirm("Delete this session from history?")){db.history=db.history.filter(x=>x.id!==b.dataset.id);save();render();}}
+  else if(a==="t-"){T.end-=15000;T.total=Math.max(T.total,1);tickT();}
+  else if(a==="t+"){if(!T.int){startRest(15);}else{T.end+=15000;T.total+=15;tickT();}}
+  else if(a==="tskip")stopTimer();
+  else if(a==="export"){
+    const blob=new Blob([JSON.stringify({app:"liftlog",v:1,exported:new Date().toISOString(),history:db.history},null,1)],{type:"application/json"});
+    const u=URL.createObjectURL(blob),l=document.createElement("a");l.href=u;l.download=`aglifts-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);
+  }
+  else if(a==="import")$("#importfile").click();
+});
+document.addEventListener("input",ev=>{
+  const f=ev.target.dataset.f;if(!f)return;
+  if(f==="rating"){db.draft.rating=ev.target.value;save();return;}
+  if(f==="prog"){db.ui.prog=ev.target.value;save();render();return;}
+  const {ex,i}=ev.target.dataset;const s=db.draft.sets[ex][+i];
+  if(f==="w"){const old=s.w,val=ev.target.value.replace(",",".");s.w=val;
+    // carry a changed weight down to later sets that still match the old value
+    db.draft.sets[ex].forEach((o,j)=>{if(j>+i&&!o.done&&(o.w===""||o.w===old)){o.w=val;const inp=document.querySelector(`[data-f="w"][data-ex="${ex}"][data-i="${j}"]`);if(inp)inp.value=val;}});
+  }else s[f]=ev.target.value;
+  save();
+});
+$("#importfile").addEventListener("change",async ev=>{
+  const file=ev.target.files[0];ev.target.value="";if(!file)return;
+  try{const j=JSON.parse(await file.text());if(!Array.isArray(j.history))throw 0;
+    const ids=new Set(db.history.map(x=>x.id));let n=0;
+    for(const h of j.history){if(h&&h.id&&h.session&&h.entries&&!ids.has(h.id)){db.history.push(h);n++;}}
+    save();toast(`Imported ${n} new session${n===1?"":"s"}`);render();
+  }catch(e){toast("That file isn't an AG Lifts backup");}
+});
+
+render();wake();
+</script>
+</body>
+</html>
